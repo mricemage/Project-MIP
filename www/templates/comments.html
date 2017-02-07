@@ -1,0 +1,22 @@
+<ion-view title="List Comments">
+  <ion-content padding="true" class="has-header">
+      <h2>Comments</h2>
+    <ion-list id="profile-list7" ng-repeat="comment in commentList">
+      <ion-item class="item-avatar balanced" id="profile-list-item18">
+        <img ng-src="{{comment.avatar}}"> 
+        <h2balanced>{{comment.content}}</h2balanced>
+        
+      </ion-item>
+    </ion-list>
+   <form ng-submit="createTask(task)">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" placeholder="What do you need to do?" ng-model="task.title">
+          </label>
+        </div>
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Create Task</button>
+        </div>
+      </form>
+  </ion-content>
+</ion-view>
