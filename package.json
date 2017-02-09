@@ -2,6 +2,7 @@
   "name": "myprojct",
   "version": "1.1.1",
   "description": "MyProjct: An Ionic project",
+  "engines": { "node": "6.9.4"},
   "dependencies": {
     "express": "^4.14.1",
     "gulp": "^3.5.6",
