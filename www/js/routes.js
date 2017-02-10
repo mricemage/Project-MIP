@@ -20,8 +20,18 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+    .state('tabsController.post-confirm',{
+    url:'/post-confirm',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/post-confirm.html',
+        controller: 'PostConfirmCtrl'
+      }
+    }
+    })
+
   .state('tabsController', {
-    url: '',
+    url: '/page1',
     templateUrl: 'templates/tabsController.html',
     abstract:true
   })

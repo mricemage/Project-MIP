@@ -1,150 +1,23 @@
-	angular.module('app.controllers', ['ionic'])
+	angular.module('app.controllers', [])
 
-	.controller('cameraCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
 
+	.controller('cameraCtrl', ['$scope', '$stateParams', 'DataService', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, DataService) {
+	
+ 
 
 }])
       
-	.controller('homeCtrl', ['$scope', '$stateParams',
-function ($scope, $stateParams) {
+	.controller('homeCtrl', ['$scope', '$stateParams', 'DataService', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams,  DataService, $state) {
 
-
-	 
-var userList=[
-{"id": 1,
- "name": "Pham Huong",
- "avatar": "img/img1.jpg"},
- {"id": 2,
- "name": "Boe Pham",
- "avatar": "img/img2.jpg"},
- {"id": 3,
- "name": "Smith Wesley",
- "avatar": "img/img3.jpg"},
- {"id": 4,
- "name": "Jane Ionic",
- "avatar": "img/img4.jpg"},
- {"id": 5,
- "name": "Lasse Khoai",
- "avatar": "img/img5.jpg"}
- 
-];
-$scope.posts = userList;
-var imgList =[
-{
-	"id": 1,
-	"uid":1,
-	"like": 2,
-	"img": "img/img1.jpg"
-},
-{
-	"id": 2,
-	"uid":2,
-	"like": 1,
-	"img": "img/img2.jpg"
-},
-{
-	"id": 3,
-	"uid":3,
-	"like": 7,
-	"img": "img/img3.jpg"
-},
-{
-	"id": 4,
-	"uid":4,
-	"like": 5,
-	"img": "img/img5.jpg"
-},
-{
-	"id": 5,
-	"uid":5,
-	"like": 1,
-	"img": "img/img5.jpg"
-},
-
-];
-$scope.imgList = imgList;
-
-
-var userList=[
-{"id": 1,
- "name": "Pham Huong",
- "avatar": "img/img1.jpg"},
- {"id": 2,
- "name": "Boe Pham",
- "avatar": "img/img2.jpg"},
- {"id": 3,
- "name": "Smith Wesley",
- "avatar": "img/img3.jpg"},
- {"id": 4,
- "name": "Jane Ionic",
- "avatar": "img/img4.jpg"},
- {"id": 5,
- "name": "Lasse Khoai",
- "avatar": "img/img5.jpg"},
- {"id": 6,
- "name": "Thang Minh",
- "avatar": "img/img1.jpg"}
-];
-$scope.posts = userList;
-var imgList =[
-{
-	"id": 1,
-	"uid":1,
-	"like": 2,
-	"img": "img/img1.jpg"
-},
-{
-	"id": 2,
-	"uid":2,
-	"like": 1,
-	"img": "img/img2.jpg"
-},
-{
-	"id": 3,
-	"uid":3,
-	"like": 7,
-	"img": "img/img3.jpg"
-},
-{
-	"id": 4,
-	"uid":4,
-	"like": 5,
-	"img": "img/img5.jpg"
-},
-{
-	"id": 5,
-	"uid":5,
-	"like": 1,
-	"img": "img/img5.jpg"
-},
-{
-	"id": 6,
-	"uid":6,
-	"like": 3,
-	"img": "img/img4.jpg"
-}
-];
-$scope.imgList = imgList;
-
-
-for(var i = 0; i < imgList.length; i++){
-	for(var k = 0; k < userList.length; k++){
-		if(imgList[i].uid == userList[k].id){
-			$scope.posts[k].img = imgList[i].img;
-			$scope.posts[k].id = imgList[i].id;
-			$scope.posts[k].like = imgList[i].like;
-		}
-		else{
-			
-		}
-	}
-}
-
-
-var hasLiked = false;
+  $scope.posts = DataService;
+	var hasLiked = false;
 	 $scope.class = "button button-light  icon ion-ios-heart-outline";
-	 console.log(imgList[0].like);
 	 $scope.likeClick = function() {
 	 	if (!hasLiked) {
 	 		hasLiked = true;
@@ -157,353 +30,106 @@ var hasLiked = false;
 	 		$scope.likeCount -= 1;
 	 		$scope.class = "button button-light  icon ion-ios-heart-outline";
 	 	}
-	 }
-var commentList=[
-	{
-		"cmtid": 1,
-		"imgid": 1,
-		"uid": 5,
-		"content": "I love your picture"
-	},
-	{
-		"cmtid": 2,
-		"imgid": 2,
-		"uid": 4,
-		"content": "have to log in to give a heart to ur picture. Gorgeous"
-	},
-	{
-		"cmtid": 3,
-		"imgid": 3,
-		"uid": 6,
-		"content": "Wonderful"
-	},
-	{
-		"cmtid": 4,
-		"imgid": 1,
-		"uid": 4,
-		"content": "tetetetet"
-	}
-];
+	 }//end function
 
+	 $scope.clickThis=function(q) {			//This means when you click on the comment, it will change to the comment page of the post.
+	var array = $scope.posts;
+	for(var i = 0; i < array.length; i++){
+		console.log(array[i].id + " i: " + i);
+		if(array[i].id == q)
+		{
+			       $state.go("tabsController.comments", { id:array[i].id });
+		}	
+	}											
+    }			
+
+															  //
 
 }])
    
-.controller('commentsCtrl', ['$scope', '$stateParams',function ($scope, $stateParams) {
+.controller('commentsCtrl', ['$scope', '$stateParams', 'DataService', '$state', function ($scope, $stateParams, DataService, $routeParams, $state) {
+var i = $stateParams.id;
+console.log("stateparam.id " + i);console.log(DataService);
+$scope.posts = DataService[i];
+$scope.saveChanges = function(mycomment) {
 
-var userList=[
-{"id": 1,
- "name": "Pham Huong",
- "avatar": "img/img1.jpg"},
- {"id": 2,
- "name": "Boe Pham",
- "avatar": "img/img2.jpg"},
- {"id": 3,
- "name": "Smith Wesley",
- "avatar": "img/img3.jpg"},
- {"id": 4,
- "name": "Jane Ionic",
- "avatar": "img/img4.jpg"},
- {"id": 5,
- "name": "Lasse Khoai",
- "avatar": "img/img5.jpg"},
- {"id": 6,
- "name": "Thang Minh",
- "avatar": "img/img1.jpg"}
-];
-$scope.posts = userList;
-var imgList =[
-{
-	"id": 1,
-	"uid":1,
-	"like": 2,
-	"img": "img/img1.jpg"
-},
-{
-	"id": 2,
-	"uid":2,
-	"like": 1,
-	"img": "img/img2.jpg"
-},
-{
-	"id": 3,
-	"uid":3,
-	"like": 7,
-	"img": "img/img3.jpg"
-},
-{
-	"id": 4,
-	"uid":4,
-	"like": 5, 
-	"img": "img/img5.jpg"
-},
-{
-	"id": 5,
-	"uid":5,
-	"like": 1,
-	"img": "img/img5.jpg"
-},
-{
-	"id": 6,
-	"uid":6,
-	"like": 3,
-	"img": "img/img4.jpg"
-},
-{
-	"id": 7,
-	"uid":1,
-	"like": 3,
-	"img": "img/img7.jpg"
-}
-];
-$scope.imgList = imgList;
-
-
-var commentList=[
-	{
-		"cmtid": 1,
-		"imgid": 1,
-		"uid": 5,
-		"content": "I love your picture"
-	},
-	{
-		"cmtid": 2,
-		"imgid": 2,
-		"uid": 4,
-		"content": "have to log in to give a heart to ur picture. Gorgeous"
-	},
-	{
-		"cmtid": 3,
-		"imgid": 3,
-		"uid": 6,
-		"content": "Wonderful"
-	},
-	{
-		"cmtid": 4,
-		"imgid": 1,
-		"uid": 4,
-		"content": "tetetetet"
-	}
-	
-];
-$scope.commentList= [];
-
-
-
-var dm = Number($stateParams.id);
-var k =0;
-
-$scope.createTask = function(task) {
-    commentList.push({
-	"cmtid": i,
-	"imgid": dm,
-	"uid": 1,
-    "content": task.title
-});
-console.log(commentList);
-$scope.commentList.push({
-	"cmtid": i,
-	"imgid": dm,
-	"uid": 1,
-    "content": task.title
-});
-
-  };
-
-
-for(var i = 0; i < commentList.length ;  i++ ){
-	if(commentList[i].imgid == dm)
-	{
-		//$scope.commentList[k].content = commentList[i].content;
-		for(var m = 0; m < userList.length; m++){
-			if(commentList[k].uid == userList[m].id){
-				//$scope.commentList[k].avatar = userList[m].avatar;
-				//console.log($scope.commentList[k].avatar);
-				$scope.commentList.push({
-					"content": commentList[i].content,
-					"imgid": dm,
-					"uid": userList[m].id,
-					"cmtid": commentList[i].id,
-					"avatar": userList[m].avatar
-				});
+	var form = 
+            {
+				id: $stateParams.id-1,
+                user:{
+                    id: 2,
+                    name: "Boe Nguyen",
+                    avatar: "img/img4.jpg"
+                },
+                content: mycomment
 			}
-			else{
-				console.log('deo show hinh' + i);
-		}
-	}
-		k++;
-	}
-	else{
-	//console.log('deo tim ra' + i);
-	}
-}
+          $scope.posts.comment.push(form);
+		  
+        };
 
-
-
+$scope.$on('$ionicView.beforeEnter', function (event, viewData) { //
+    viewData.enableBack = true;									  // Use it to display the "back" button
+});																  //
 
 }])
 
-.controller('searchCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('searchCtrl', ['$scope', '$stateParams', '$state', 'allPerson', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-  $scope.userList=[
-{"id": 1,
- "name": "Pham Huong",
- "avatar": "img/img1.jpg"},
- {"id": 2,
- "name": "Boe Pham",
- "avatar": "img/img2.jpg"},
- {"id": 3,
- "name": "Smith Wesley",
- "avatar": "img/img3.jpg"},
- {"id": 4,
- "name": "Jane Ionic",
- "avatar": "img/img4.jpg"},
- {"id": 5,
- "name": "Lasse Khoai",
- "avatar": "img/img5.jpg"},
- {"id": 6,
- "name": "Thang Minh",
- "avatar": "img/img1.jpg"}
-];
+function ($scope, $stateParams, $state, allPerson) {
+  $scope.userList = allPerson;
+
+
+$scope.search = function(choice) {
+	var array = $scope.userList;
+	for(var i = 0; i < array.length; i++){
+		if(array[i].id == choice)
+		{
+			       $state.go("tabsController.searchprofile", { id:array[i].id });
+		}	
+	}														
+        };
+
+
+
+$scope.$on('$ionicView.beforeEnter', function (event, viewData) { //
+    viewData.enableBack = true;									  // Use it to display the "back" button
+});																  //
+}])
+.controller('profileController', ['$scope', '$stateParams', '$state', 'allPerson', function($scope,$stateParams, $state,  allPerson) {
+
+var i = $stateParams.id;
+
+console.log("stateparam.id " + i);
+console.log(allPerson[i]);
+$scope.user = allPerson[i];
+
+
 }])
 
-//    .controller('profileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// // You can include any angular dependencies as parameters for this function
-// // TIP: Access Route Parameters for your page via $stateParams.parameterName
-// function ($scope, $stateParams) {
-// var storedNames = JSON.parse(localStorage.getItem("userList"));
-// $scope.userList = storedNames;
-// console.log(storedNames);
 
-//    }])
+.controller('profileCtrl', ['$scope', '$stateParams', 'Personal','DataService',
+function ($scope, $stateParams, Personal, DataService) {
+$scope.user = Personal;
+var postsArray = DataService;
 
-.controller('profileCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
-var userList=[
-{"id": 1,
- "name": "Pham Huong",
- "avatar": "img/img1.jpg"},
- {"id": 2,
- "name": "Boe Pham",
- "avatar": "img/img2.jpg"},
- {"id": 3,
- "name": "Smith Wesley",
- "avatar": "img/img3.jpg"},
- {"id": 4,
- "name": "Jane Ionic",
- "avatar": "img/img4.jpg"},
- {"id": 5,
- "name": "Lasse Khoai",
- "avatar": "img/img5.jpg"},
- {"id": 6,
- "name": "Thang Minh",
- "avatar": "img/img1.jpg"}
-];	
-var imgList =[
+
+$scope.post = {};
+for(var i = 0; i < 2; i++) // 2 o day se tuong duong voi chieu dai cua databse posts{
 {
-	"id": 1,
-	"uid":1,
-	"like": 2,
-	"img": "img/img1.jpg"
-},
-{
-	"id": 2,
-	"uid":2,
-	"like": 1,
-	"img": "img/img2.jpg"
-},
-{
-	"id": 3,
-	"uid":3,
-	"like": 7,
-	"img": "img/img3.jpg"
-},
-{
-	"id": 4,
-	"uid":4,
-	"like": 5, 
-	"img": "img/img5.jpg"
-},
-{
-	"id": 5,
-	"uid":5,
-	"like": 1,
-	"img": "img/img5.jpg"
-},
-{
-	"id": 6,
-	"uid":6,
-	"like": 3,
-	"img": "img/img4.jpg"
-},
-{
-	"id": 7,
-	"uid":1,
-	"like": 3,
-	"img": "img/img7.jpg"
+if($scope.user.id == postsArray[i].user.id ) { //id user trong 1 bai post){ 
+	$scope.post = postsArray[i]; //post se bang url cua nhung buc hinh ma admin da dang tai 
+	console.log($scope.user.id);
 }
-];
-$scope.posts = [];
-	for(var i = 0; i < imgList.length; i++){
-		if(imgList[i].uid == userList[0].id){
-			$scope.posts.push({
-				"name": userList[0].name,
-				"avatar": userList[0].avatar,
-				"img": imgList[i].img
-			});
-		}
-		else{
-			
-		}
-	}console.log($scope.posts);
-
-
-}])
-
-.controller('profileController', ['$scope', '$stateParams', function($scope,$stateParams, DataService) {
-var userLists=[
-{"id": 1,
- "name": "Pham Huong",
- "avatar": "img/img1.jpg"},
- {"id": 2,
- "name": "Boe Pham",
- "avatar": "img/img2.jpg"},
- {"id": 3,
- "name": "Smith Wesley",
- "avatar": "img/img3.jpg"},
- {"id": 4,
- "name": "Jane Ionic",
- "avatar": "img/img4.jpg"},
- {"id": 5,
- "name": "Lasse Khoai",
- "avatar": "img/img5.jpg"},
- {"id": 6,
- "name": "Thang Minh",
- "avatar": "img/img1.jpg"}
-];
-var dm = Number($stateParams.id);
-console.log('dm '+ dm);
-console.log(typeof dm);
-console.log('user ' + typeof userLists[1].id);
-$scope.userList = [];
-var k = 0;
-for(var i = 0; i < userLists.length ; i++ ){
-	if(userLists[i].id == dm)
-	{
-		$scope.userList[k] = userLists[i];
-		k++;
-		console.log(dm);
-	}
-	else{
-		console.log('deo tim ra' + i);
-	}
 }
 
- 
-
+$scope.$on('$ionicView.beforeEnter', function (event, viewData) { //
+    viewData.enableBack = true;									  // Use it to display the "back" button
+});	
 
 }])
+
+
 	.controller('pageCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
