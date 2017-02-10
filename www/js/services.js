@@ -3,7 +3,27 @@ angular.module('app.services', [])
 .factory('BlankFactory', [function($http, $q, $localstorage, SERVER){
 
 }])
-.factory('DataService', [function(){
+
+.factory('DataService', ['$http', '$q', function($http, $q){
+    var home = [];
+    return {
+        getHome: function() //Mình thích thì mình đặt thôi! Liên quan đến homeCtrl!
+        {
+            return $q(function(resolve, reject){
+                $http.get("https://fake-instagram.herokuapp.com/home").then(function(response){
+                    home = response.data;
+                    resolve(home);
+                    console.log(home);
+                },function(err){
+                    console.log("Connection Failed!");
+                    reject();
+                });
+            });
+        }
+    }
+}])
+
+.factory('DataServices', [function(){
 
 return [
     { //bai post dau tien gom 2 comment cua user 2 va 3
@@ -112,6 +132,7 @@ return [
     ];
 
 }])
+
 
 .factory('Personal', [function(){
     var info = {

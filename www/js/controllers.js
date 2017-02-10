@@ -10,12 +10,21 @@ function ($scope, $stateParams, DataService) {
 
 }])
       
-	.controller('homeCtrl', ['$scope', '$stateParams', 'DataService', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+	.controller('homeCtrl', ['$scope', '$stateParams', 'DataService', '$state','$q', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,  DataService, $state) {
+function ($scope, $stateParams,  DataService, $state, $q) {
 
-  $scope.posts = DataService;
+	$scope.$on('$ionicView.enter', function(){
+		DataService.getHome().then(function(home)
+			{
+				$scope.posts = home; //posts liên quan đến home.html [Đây là lệnh (3)]
+				console.log($scope.posts);
+			}
+		);
+	});
+
+ // $scope.posts = DataService; Xóa dòng này vì đã có lệnh (3)
 	var hasLiked = false;
 	 $scope.class = "button button-light  icon ion-ios-heart-outline";
 	 $scope.likeClick = function() {
@@ -47,10 +56,10 @@ function ($scope, $stateParams,  DataService, $state) {
 
 }])
    
-.controller('commentsCtrl', ['$scope', '$stateParams', 'DataService', '$state', function ($scope, $stateParams, DataService, $routeParams, $state) {
+.controller('commentsCtrl', ['$scope', '$stateParams', 'DataServices', '$state', function ($scope, $stateParams, DataServices, $routeParams, $state) {
 var i = $stateParams.id;
-console.log("stateparam.id " + i);console.log(DataService);
-$scope.posts = DataService[i];
+console.log("stateparam.id " + i);console.log(DataServices);
+$scope.posts = DataServices[i];
 $scope.saveChanges = function(mycomment) {
 
 	var form = 
@@ -108,10 +117,10 @@ $scope.user = allPerson[i];
 }])
 
 
-.controller('profileCtrl', ['$scope', '$stateParams', 'Personal','DataService',
-function ($scope, $stateParams, Personal, DataService) {
+.controller('profileCtrl', ['$scope', '$stateParams', 'Personal','DataServices',
+function ($scope, $stateParams, Personal, DataServices) {
 $scope.user = Personal;
-var postsArray = DataService;
+var postsArray = DataServices;
 
 
 $scope.post = {};
@@ -128,7 +137,6 @@ $scope.$on('$ionicView.beforeEnter', function (event, viewData) { //
 });	
 
 }])
-
 
 	.controller('pageCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
